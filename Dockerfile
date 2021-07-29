@@ -43,7 +43,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # https://stackoverflow.com/questions/58701233/docker-logs-erroneously-appears-empty-until-container-stops
 ENV PYTHONUNBUFFERED=1
 
-RUN [ ! -d "/datastore" ] && mkdir /datastore
+# RUN [ ! -d "/datastore" ]
+# ^ is this possible at this step?
+
+# Add new user with uid 1000 and use it for further steps and running the app
+RUN useradd -ms /bin/bash changedetection -u 1000\
+    && install -d -m 0755 -o changedetection -g changedetection /app \
+    && install -d -m 0755 -o changedetection -g changedetection /datastore
+
+USER changedetection
 
 # Re #80, sets SECLEVEL=1 in openssl.conf to allow monitoring sites with weak/old cipher suites
 RUN sed -i 's/^CipherString = .*/CipherString = DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf

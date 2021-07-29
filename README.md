@@ -1,3 +1,8 @@
+# Fork info
+
+This contains modified Dockerfile that allows to run the app as non-root. It has hardcoded UID. It may not be compatible
+with some use cases I'm not aware of.
+
 ## Web Site Change Detection, Restock monitoring and notifications.
 
 **_Detect website content changes and perform meaningful actions - trigger notifications via Discord, Email, Slack, Telegram, API calls and many more._**
